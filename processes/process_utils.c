@@ -165,7 +165,7 @@ int createChild(char* szCommand,
 		DBG_MAESTRO("send message:%s\n",szMessage);
 	}
 
-	if (pipe(aErrorPipe,O_CLOEXEC) < 0) {
+	if (pipe2(aErrorPipe,O_CLOEXEC) < 0) {
 		err->_errno = errno;
 		perror("allocating pipe for execve error capture.");
 		return -1;
@@ -316,7 +316,7 @@ int createChild(char* szCommand,
 		DBG_MAESTRO("createChild about to execvpe()\n");
 		// run child process image
 		// replace this with any exec* function find easier to use ("man exec")
-		nResult = execvp(szCommand, aArguments, aEnvironment);
+		nResult = execvpe(szCommand, aArguments, aEnvironment);
 
 		char *errs = get_error_str(errno);
 		DBG_MAESTRO("createChild's child process past execvpe(%s) ERROR: %d %d %s\n",szCommand,nResult,errno,errs);
