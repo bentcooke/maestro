@@ -10,7 +10,7 @@ done
 
 DEPS_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 LOG=${DEPS_DIR}/../install_deps.log
-GPERF_DIR=${DEPS_DIR}/gperftools-2.4
+GPERF_DIR=${DEPS_DIR}/gperftools
 LIBUV_DIR=${DEPS_DIR}/libuv-v1.10.1
 LIBTW_DIR=${DEPS_DIR}/twlib
 #PCRE_DIR=${DEPS_DIR}/pcre2-10.22  # not used
@@ -34,18 +34,18 @@ fi
 
 pushd $GPERF_DIR
 touch $LOG
-cp configure.orig configure
-cp Makefile.in.orig Makefile.in
+
 #make clean
 echo "Echo building dependencies..." >> $LOG
-./configure $CONFIG_OPTIONS --prefix=${DEPS_DIR}/build --enable-frame-pointers --with-pic 2>&1 >> $LOG || echo "Failed in configure for gperftools" >> $LOG
+./autogen.sh
+./configure $CONFIG_OPTIONS --prefix=${DEPS_DIR}/build 2>&1 >> $LOG || echo "Failed in configure for gperftools" >> $LOG
 make -j4 2>&1 >> $LOG || echo "Failed to compile gperftools" >> $LOG
 make install 2>&1 >> $LOG || echo "Failed to install gperftools to: $DEPS_DIR/build" >> $LOG
 # does not copy libstacktrace for some reason
 cp .libs/libstacktrace.* ../build/lib
 #echo "Error building gperftools-2.4" > $LOG
 #make clean
-rm -f $GPERF_DIR/Makefile
+#rm -f $GPERF_DIR/Makefile
 if [ -e "$DEPS_DIR/build/include/google/tcmalloc.h" ]; then
     echo "Successful build of depenencies" >> $LOG
     echo "ok"
@@ -55,7 +55,7 @@ else
     echo "notok"
     exit 1
 fi
-rm -f Makefile.in
+#rm -f Makefile.in
 popd
 
 echo "build libuv...."
