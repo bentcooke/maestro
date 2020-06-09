@@ -42,7 +42,7 @@ echo "Echo building dependencies..." >> $LOG
 make -j4 2>&1 >> $LOG || echo "Failed to compile gperftools" >> $LOG
 make install 2>&1 >> $LOG || echo "Failed to install gperftools to: $DEPS_DIR/build" >> $LOG
 # does not copy libstacktrace for some reason
-#cp .libs/libstacktrace.* ../build/lib
+cp .libs/libstacktrace.* ../build/lib
 #echo "Error building gperftools-2.4" > $LOG
 #make clean
 #rm -f $GPERF_DIR/Makefile
