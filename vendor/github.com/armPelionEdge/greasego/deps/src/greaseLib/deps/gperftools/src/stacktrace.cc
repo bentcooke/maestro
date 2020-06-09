@@ -133,14 +133,14 @@ struct GetStackImplementation {
 #define HAVE_GST_ppc
 #endif
 
-#if defined(__arm__)
+//#if defined(__arm__)
 #define STACKTRACE_INL_HEADER "stacktrace_arm-inl.h"
 #define GST_SUFFIX arm
 #include "stacktrace_impl_setup-inl.h"
 #undef GST_SUFFIX
 #undef STACKTRACE_INL_HEADER
 #define HAVE_GST_arm
-#endif
+//#endif
 
 #ifdef TCMALLOC_ENABLE_INSTRUMENT_STACKTRACE
 #define STACKTRACE_INL_HEADER "stacktrace_instrument-inl.h"
